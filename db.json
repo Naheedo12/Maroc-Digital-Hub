@@ -1,0 +1,8 @@
+{
+  "users": [
+    { "id": 1, "name": "salma", "email": "salma@gmail.com", "role": "admin" }
+  ],
+  "startups": [],
+  "events": [],
+  "messages": []
+}
