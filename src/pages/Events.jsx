@@ -55,7 +55,7 @@ function Events() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
                 <input
-                  type="text"
+                  type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                   placeholder="JJ / MM / YYYY"
