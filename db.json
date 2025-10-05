@@ -1,8 +1,73 @@
 {
   "users": [
-    { "id": 1, "name": "salma", "email": "salma@gmail.com", "role": "admin" }
+    {
+      "id": 1,
+      "name": "Salma ELQADI",
+      "email": "admin@maroc.com",
+      "password": "admin123",
+      "role": "Admin"
+    }
   ],
-  "startups": [],
-  "events": [],
-  "messages": []
+  "startups": [
+    {
+      "id": 1,
+      "name": "TechVision",
+      "sector": "IA",
+      "description": "Intelligence artificielle pour l'éducation",
+      "image": "/placeholder.svg?height=200&width=300",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "name": "FinanceHub",
+      "sector": "Fintech",
+      "description": "Solutions de paiement mobile",
+      "image": "/placeholder.svg?height=200&width=300",
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "name": "EcoShop",
+      "sector": "E-commerce",
+      "description": "Marketplace écologique",
+      "image": "/placeholder.svg?height=200&width=300",
+      "userId": 1
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "title": "Morocco Tech Summit",
+      "date": "2025-11-15",
+      "location": "Casablanca",
+      "description": "Le plus grand sommet technologique du Maroc.",
+      "participants": [],
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "title": "Startup Weekend",
+      "date": "2025-12-01",
+      "location": "Rabat",
+      "description": "48h pour créer votre startup",
+      "participants": [],
+      "userId": 1
+    }
+  ],
+  "discussions": [
+    {
+      "id": 1,
+      "author": "Salma ELQADI",
+      "role": "Admin",
+      "message": "Rappel : Le Tech Summit est le 15 novembre. N'oubliez pas de vous inscrire via la page Événements !",
+      "date": "2025-09-25T20:27:00"
+    },
+    {
+      "id": 2,
+      "author": "Salma ELQADI",
+      "role": "Startup",
+      "message": "Rappel : Le Tech Summit est le 15 novembre. N'oubliez pas de vous inscrire via la page Événements !",
+      "date": "2025-09-25T20:27:00"
+    }
+  ]
 }
