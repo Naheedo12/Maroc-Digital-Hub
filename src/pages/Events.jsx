@@ -25,31 +25,21 @@ function Events() {
       description: "Le plus grand sommet technologique du Maroc.",
       participants: 4,
     },
-    {
-      id: 3,
-      title: "Morocco Tech Summit",
-      date: "sam. 15 nov. 2025",
-      location: "Casablanca",
-      description: "Le plus grand sommet technologique du Maroc.",
-      participants: 4,
-    },
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-[#FFF2EE] py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <h1 className="text-4xl font-bold text-primary text-center mb-4">Calendrier des Événements</h1>
-        <p className="text-center text-gray-600 mb-12">
+        <h1 className="text-4xl font-bold text-[#017679] text-center mb-3">Calendrier des Événements</h1>
+        <p className="text-center text-gray-600 mb-12 text-sm">
           Découvrez les prochains meetups, conférences et ateliers organisés par la communauté.
         </p>
 
-        {/* Create Event Form */}
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
-          <h2 className="text-2xl font-bold text-primary text-center mb-4">Créer un nouvel événement</h2>
-          <p className="text-center text-gray-600 mb-6">Vous pouvez proposer un événement à la communauté.</p>
+        <div className="bg-white rounded-xl shadow-md p-8 mb-12">
+          <h2 className="text-2xl font-bold text-[#017679] text-center mb-3">Créer un nouvel événement</h2>
+          <p className="text-center text-gray-600 mb-6 text-sm">Vous pouvez proposer un événement à la communauté.</p>
 
-          <form className="space-y-6">
+          <form className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Titre de l'événement</label>
               <input
@@ -57,11 +47,11 @@ function Events() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Ex: Conférence sur l'IA éthique"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#017679] text-sm"
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
                 <input
@@ -69,7 +59,7 @@ function Events() {
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                   placeholder="JJ / MM / YYYY"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#017679] text-sm"
                 />
               </div>
               <div>
@@ -79,7 +69,7 @@ function Events() {
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="Ex: Casablanca"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#017679] text-sm"
                 />
               </div>
             </div>
@@ -91,20 +81,20 @@ function Events() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Détails, intervenants..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#017679] text-sm"
               ></textarea>
             </div>
 
-            <div className="flex justify-end space-x-4">
+            <div className="flex justify-end space-x-3">
               <button
                 type="button"
-                className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm"
               >
                 Annuler
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors"
+                className="px-6 py-2 bg-[#017679] hover:bg-[#015a5d] text-white rounded-lg transition-colors text-sm"
               >
                 Publier l'événement
               </button>
@@ -112,18 +102,17 @@ function Events() {
           </form>
         </div>
 
-        {/* Existing Events */}
-        <h2 className="text-2xl font-bold text-primary mb-6">Les événements existantes</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <h2 className="text-2xl font-bold text-[#017679] mb-6">Les événements existantes</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {events.map((event) => (
             <div
               key={event.id}
-              className="bg-white border-2 border-primary rounded-lg p-6 hover:shadow-lg transition-shadow"
+              className="bg-white border-l-[6px] border-[#017679] rounded-lg p-6 hover:shadow-lg transition-shadow"
             >
-              <h3 className="font-bold text-lg mb-3">{event.title}</h3>
+              <h3 className="font-bold text-lg mb-4">{event.title}</h3>
               <div className="space-y-2 mb-4">
-                <div className="flex items-center text-sm text-gray-600">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center text-sm text-gray-700">
+                  <svg className="w-4 h-4 mr-2 text-[#D88B6F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -131,10 +120,12 @@ function Events() {
                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                     />
                   </svg>
-                  <span>Date : {event.date}</span>
+                  <span>
+                    <strong>Date :</strong> {event.date}
+                  </span>
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center text-sm text-gray-700">
+                  <svg className="w-4 h-4 mr-2 text-[#D88B6F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -148,13 +139,15 @@ function Events() {
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
-                  <span>Lieu : {event.location}</span>
+                  <span>
+                    <strong>Lieu :</strong> {event.location}
+                  </span>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 mb-4">{event.description}</p>
-              <div className="flex items-center justify-between">
+              <p className="text-sm text-gray-600 mb-6">{event.description}</p>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                 <div className="flex items-center text-sm text-gray-500">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -164,7 +157,7 @@ function Events() {
                   </svg>
                   {event.participants} participants
                 </div>
-                <button className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                <button className="bg-[#017679] hover:bg-[#015a5d] text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
                   Participer
                 </button>
               </div>

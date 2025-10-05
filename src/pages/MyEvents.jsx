@@ -27,14 +27,15 @@ function MyEvents() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-[#FFF2EE] py-12 px-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <h1 className="text-4xl font-bold text-primary text-center mb-4">Mes Événements Personnels</h1>
+        <h1 className="text-4xl font-bold text-[#017679] text-center mb-8">Mes Événements Personnels</h1>
 
-        {/* Back Link */}
         <div className="mb-8">
-          <a href="/events" className="text-primary hover:underline flex items-center space-x-1">
+          <a
+            href="/events"
+            className="text-gray-600 hover:text-[#017679] flex items-center space-x-1 text-sm transition-colors"
+          >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
@@ -42,17 +43,16 @@ function MyEvents() {
           </a>
         </div>
 
-        {/* Events Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {myEvents.map((event) => (
             <div
               key={event.id}
-              className="bg-white border-2 border-primary rounded-lg p-6 hover:shadow-lg transition-shadow"
+              className="bg-white border-l-[6px] border-[#017679] rounded-lg p-6 hover:shadow-lg transition-shadow"
             >
-              <h3 className="font-bold text-lg mb-3">{event.title}</h3>
+              <h3 className="font-bold text-lg mb-4">{event.title}</h3>
               <div className="space-y-2 mb-4">
-                <div className="flex items-center text-sm text-gray-600">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center text-sm text-gray-700">
+                  <svg className="w-4 h-4 mr-2 text-[#D88B6F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -60,10 +60,12 @@ function MyEvents() {
                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                     />
                   </svg>
-                  <span>Date : {event.date}</span>
+                  <span>
+                    <strong>Date :</strong> {event.date}
+                  </span>
                 </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-center text-sm text-gray-700">
+                  <svg className="w-4 h-4 mr-2 text-[#D88B6F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -77,13 +79,15 @@ function MyEvents() {
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
-                  <span>Lieu : {event.location}</span>
+                  <span>
+                    <strong>Lieu :</strong> {event.location}
+                  </span>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 mb-4">{event.description}</p>
-              <div className="flex items-center justify-between">
+              <p className="text-sm text-gray-600 mb-6">{event.description}</p>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                 <div className="flex items-center text-sm text-gray-500">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -93,7 +97,7 @@ function MyEvents() {
                   </svg>
                   {event.participants} participants
                 </div>
-                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                <button className="bg-[#dc2626] hover:bg-[#b91c1c] text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors">
                   Se désinscrire
                 </button>
               </div>

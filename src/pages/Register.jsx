@@ -29,28 +29,26 @@ function Register() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-[#FFF2EE] flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
-        {/* Tabs */}
         <div className="flex justify-center mb-8">
-          <div className="inline-flex rounded-lg overflow-hidden shadow-sm">
+          <div className="inline-flex rounded-lg overflow-hidden">
             <Link
               to="/login"
-              className="px-8 py-3 bg-gray-300 text-gray-700 font-semibold hover:bg-gray-400 transition-colors"
+              className="px-8 py-3 bg-gray-300 text-gray-700 font-medium text-sm hover:bg-gray-400 transition-colors"
             >
               Connexion
             </Link>
-            <Link to="/register" className="px-8 py-3 bg-primary text-white font-semibold">
+            <Link to="/register" className="px-8 py-3 bg-[#0d7377] text-white font-medium text-sm">
               Inscription
             </Link>
           </div>
         </div>
 
-        {/* Register Form */}
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-primary text-center mb-8">Créer un compte</h2>
+        <div className="bg-white rounded-xl shadow-md p-8">
+          <h2 className="text-2xl font-bold text-[#0d7377] text-center mb-8">Créer un compte</h2>
 
-          <form className="space-y-6">
+          <form className="space-y-5">
             {/* Name */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Nom / Pseudo</label>
@@ -70,7 +68,7 @@ function Register() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Salma ELOADI"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0d7377] text-sm"
                 />
               </div>
             </div>
@@ -94,7 +92,7 @@ function Register() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="salma@gmail.com"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0d7377] text-sm"
                 />
               </div>
             </div>
@@ -118,42 +116,41 @@ function Register() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0d7377] text-sm"
                 />
               </div>
             </div>
 
-            {/* Role Selection */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">Sélectionner votre Rôle</label>
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {roles.map((role) => (
                   <div
                     key={role.name}
                     onClick={() => setSelectedRole(role.name)}
-                    className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                      selectedRole === role.name ? "border-primary bg-teal-50" : "border-gray-200 hover:border-gray-300"
+                    className={`p-3.5 border rounded-lg cursor-pointer transition-all ${
+                      selectedRole === role.name
+                        ? "border-[#0d7377] bg-[#0d7377]/5"
+                        : "border-gray-300 hover:border-gray-400"
                     }`}
                   >
-                    <div className="font-semibold text-gray-800">{role.name}</div>
-                    <div className="text-sm text-gray-600">{role.description}</div>
+                    <div className="font-semibold text-gray-900 text-sm">{role.name}</div>
+                    <div className="text-xs text-gray-600 mt-0.5">{role.description}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg font-semibold transition-colors"
+              className="w-full bg-[#0d7377] hover:bg-[#0a5c5f] text-white py-2.5 rounded-lg font-medium transition-colors text-sm mt-6"
             >
               S'inscrire et rejoindre le Hub
             </button>
 
-            {/* Login Link */}
-            <div className="text-center text-sm">
+            <div className="text-center text-sm mt-4">
               <span className="text-gray-600">Déjà un compte ? </span>
-              <Link to="/login" className="text-orange-500 hover:underline font-semibold">
+              <Link to="/login" className="text-[#ff6b6b] hover:underline font-medium">
                 Connectez-vous ici
               </Link>
             </div>

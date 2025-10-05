@@ -1,17 +1,12 @@
-// Login.jsx
-
 "use client"
 
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Mail, Lock, ArrowRight, CheckCircle } from 'lucide-react'; // Assuming you have lucide-react or a similar icon library for modern icons
-
-// If you don't have lucide-react, you can replace the icon components with the SVG paths provided later.
 
 function Login() {
-  const [email, setEmail] = useState("salma@gmail.com")
-  const [password, setPassword] = useState("••••••••")
-  const [selectedRole, setSelectedRole] = useState("Startup") // Pre-select a role for demo
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [selectedRole, setSelectedRole] = useState("")
 
   const roles = [
     {
@@ -32,130 +27,113 @@ function Login() {
     },
   ]
 
-  const primaryColor = "#017679"
-  const primaryColorDark = "#015557"
-  const lightBgColor = "#FFF2EE"
-  const linkColor = "#E3997E" // Original light orange/pink for the link
-
-  // Function to handle form submission (placeholder)
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Attempting login with:", { email, selectedRole });
-    // Add your actual login logic here
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: lightBgColor }}>
+    <div className="min-h-screen bg-[#FFF2EE] flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
-        
-        {/* --- Tab Navigation (Bolder and cleaner) --- */}
-        <div className="flex justify-center mb-10">
-          <div className="inline-flex rounded-xl overflow-hidden shadow-lg">
-            <Link
-              to="/login"
-              className="px-8 py-3 bg-white text-gray-800 font-bold text-base transition-all duration-300"
-              style={{ backgroundColor: primaryColor, color: 'white', boxShadow: `inset 0 0 0 4px ${primaryColor}` }}
-            >
-              Login
+        <div className="flex justify-center mb-8">
+          <div className="inline-flex rounded-lg overflow-hidden">
+            <Link to="/login" className="px-8 py-3 bg-[#017679] text-white font-medium text-sm">
+              Connexion
             </Link>
             <Link
               to="/register"
-              className="px-8 py-3 bg-white text-gray-700 font-medium text-base hover:bg-gray-100 transition-colors duration-300"
+              className="px-8 py-3 bg-[#D9D9D9] text-gray-700 font-medium text-sm hover:bg-gray-400 transition-colors"
             >
               Inscription
             </Link>
           </div>
         </div>
 
-        {/* --- Main Card (Elevated Look) --- */}
-        <div 
-            className="bg-white rounded-2xl p-10 shadow-[0_20px_50px_rgba(1,118,121,0.15)] border border-gray-100/70 transform hover:shadow-[0_25px_60px_rgba(1,118,121,0.2)] transition-all duration-500"
-        >
-          <h2 className="text-3xl font-extrabold text-center mb-10" style={{ color: primaryColor }}>
-            Connectez-vous
-          </h2>
+        <div className="bg-white rounded-xl shadow-md p-8">
+          <h2 className="text-2xl font-bold text-[#017679] text-center mb-8">Connectez-vous</h2>
 
-          <form className="space-y-7" onSubmit={handleSubmit}>
-            
-            {/* --- Email Input (Modern Look) --- */}
+          <form className="space-y-5">
+            {/* Email */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Adresse Email</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Adresse Email</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="salma@gmail.com"
-                  className="w-full pl-12 pr-4 py-3 border-b-2 border-gray-300 focus:border-b-2 focus:border-b-transparent rounded-lg focus:outline-none focus:ring-4 focus:ring-teal-100 transition-all duration-300"
-                  style={{ borderRadius: '8px', borderBottomColor: primaryColor }}
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#017679] text-sm"
                 />
               </div>
             </div>
 
-            {/* --- Password Input (Modern Look) --- */}
+            {/* Password */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Mot de passe</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Mot de passe</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
+                </div>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-12 pr-4 py-3 border-b-2 border-gray-300 focus:border-b-2 focus:border-b-transparent rounded-lg focus:outline-none focus:ring-4 focus:ring-teal-100 transition-all duration-300"
-                  style={{ borderRadius: '8px', borderBottomColor: primaryColor }}
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#017679] text-sm"
                 />
               </div>
             </div>
 
-            {/* --- Role Selection (Interactive and Vivid) --- */}
-            <div className="pt-2">
-              <label className="block text-sm font-semibold text-gray-700 mb-4">Sélectionner votre Rôle</label>
-              <div className="space-y-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Sélectionner votre Rôle</label>
+              <div className="space-y-2.5">
                 {roles.map((role) => (
                   <div
                     key={role.name}
                     onClick={() => setSelectedRole(role.name)}
-                    className={`p-4 border-2 rounded-xl cursor-pointer flex items-center justify-between transition-all duration-300 hover:shadow-md ${
+                    className={`p-3.5 border rounded-lg cursor-pointer transition-all ${
                       selectedRole === role.name
-                        ? "border-teal-500 bg-teal-50 shadow-lg"
-                        : "border-gray-200 hover:border-gray-400"
+                        ? "border-[#017679] bg-[#017679]/5"
+                        : "border-gray-300 hover:border-gray-400"
                     }`}
                   >
-                    <div>
-                      <div className="font-bold text-base text-gray-900">{role.name}</div>
-                      <div className="text-sm text-gray-600 mt-0.5">{role.description}</div>
-                    </div>
-                    {/* Visual indicator (Checkmark) */}
-                    {selectedRole === role.name ? (
-                      <CheckCircle className="w-6 h-6" style={{ color: primaryColor }} fill={primaryColor} />
-                    ) : (
-                      <div className="w-5 h-5 rounded-full border-2 border-gray-300 bg-gray-50"></div>
-                    )}
+                    <div className="font-semibold text-gray-900 text-sm">{role.name}</div>
+                    <div className="text-xs text-gray-600 mt-0.5">{role.description}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* --- Submit Button (Big and Bold) --- */}
             <button
               type="submit"
-              className="w-full text-white py-4 rounded-xl font-extrabold text-xl flex items-center justify-center space-x-3 transition-all duration-300 transform active:scale-[0.98] shadow-xl hover:shadow-2xl"
-              style={{ 
-                backgroundColor: primaryColor, 
-                boxShadow: `0 10px 20px -5px ${primaryColor}50`, // Subtle color-matched shadow
-                marginTop: '30px'
-              }}
+              className="w-full bg-[#017679] hover:bg-[#015557] text-white py-2.5 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors text-sm mt-6"
             >
-              <ArrowRight className="w-6 h-6" strokeWidth={3} />
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                />
+              </svg>
               <span>Se connecter</span>
             </button>
 
-            {/* --- Sign Up Link --- */}
-            <div className="text-center text-md pt-2">
+            <div className="text-center text-sm mt-4">
               <span className="text-gray-600">Pas encore de compte ? </span>
-              <Link to="/register" className="font-bold hover:underline" style={{ color: linkColor }}>
+              <Link to="/register" className="text-[#E3997E] hover:underline font-medium">
                 Créez-en un ici
               </Link>
             </div>
