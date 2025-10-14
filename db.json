@@ -2,72 +2,85 @@
   "users": [
     {
       "id": 1,
-      "name": "Salma ELQADI",
-      "email": "admin@maroc.com",
-      "password": "admin123",
+      "name": "Salma",
+      "email": "salma@gmail.com",
+      "password": "salma",
       "role": "Admin"
+    },
+    {
+      "id": "5877",
+      "name": "Chayma",
+      "email": "chayma@gmail.com",
+      "password": "chayma",
+      "role": "Startup",
+      "createdAt": "2025-10-14T10:39:13.479Z"
+    },
+    {
+      "id": "34aa",
+      "name": "khadija",
+      "email": "khadija@gmail.com",
+      "password": "khadija",
+      "role": "Startup",
+      "createdAt": "2025-10-14T10:51:43.166Z"
     }
   ],
   "startups": [
     {
       "id": 1,
-      "name": "TechVision",
-      "sector": "IA",
-      "description": "Intelligence artificielle pour l'éducation",
-      "image": "/placeholder.svg?height=200&width=300",
-      "userId": 1
+      "name": "GreenShop",
+      "sector": "E-commerce",
+      "description": "Plateforme de commerce électronique pour produits écologiques.",
+      "userId": 1,
+      "createdAt": "2025-01-15T10:00:00.000Z"
     },
     {
       "id": 2,
-      "name": "FinanceHub",
-      "sector": "Fintech",
-      "description": "Solutions de paiement mobile",
-      "image": "/placeholder.svg?height=200&width=300",
-      "userId": 1
+      "name": "AI Vision",
+      "sector": "AI",
+      "description": "Solutions d'intelligence artificielle pour la reconnaissance d'images.",
+      "userId": 1,
+      "createdAt": "2025-01-14T10:00:00.000Z"
     },
     {
-      "id": 3,
-      "name": "EcoShop",
+      "id": "ec6f",
+      "name": "chayma",
       "sector": "E-commerce",
-      "description": "Marketplace écologique",
-      "image": "/placeholder.svg?height=200&width=300",
-      "userId": 1
+      "description": "helloooo",
+      "userId": "5877",
+      "createdAt": "2025-10-14T10:40:12.146Z"
     }
   ],
   "events": [
     {
-      "id": 1,
-      "title": "Morocco Tech Summit",
-      "date": "2025-11-15",
-      "location": "Casablanca",
-      "description": "Le plus grand sommet technologique du Maroc.",
-      "participants": [],
-      "userId": 1
-    },
-    {
-      "id": 2,
-      "title": "Startup Weekend",
-      "date": "2025-12-01",
-      "location": "Rabat",
-      "description": "48h pour créer votre startup",
-      "participants": [],
-      "userId": 1
+      "id": "9e83",
+      "title": "hahaha",
+      "date": "2025-12-12",
+      "location": "casa",
+      "description": "3ars",
+      "participants": [
+        "5877",
+        1
+      ],
+      "createdBy": "5877",
+      "createdAt": "2025-10-14T10:41:40.682Z"
     }
   ],
   "discussions": [
     {
       "id": 1,
       "author": "Salma ELQADI",
+      "userId": 1,
       "role": "Admin",
-      "message": "Rappel : Le Tech Summit est le 15 novembre. N'oubliez pas de vous inscrire via la page Événements !",
-      "date": "2025-09-25T20:27:00"
+      "message": "Rappel : Le TechSummit est le 15 novembre. N'oubliez pas de vous inscrire à la page Événements !",
+      "createdAt": "2025-09-30T23:27:00.000Z"
     },
     {
-      "id": 2,
-      "author": "Salma ELQADI",
+      "id": "f2a6",
+      "author": "Chayma",
+      "userId": "5877",
       "role": "Startup",
-      "message": "Rappel : Le Tech Summit est le 15 novembre. N'oubliez pas de vous inscrire via la page Événements !",
-      "date": "2025-09-25T20:27:00"
+      "message": "saluuuut",
+      "createdAt": "2025-10-14T10:42:04.683Z"
     }
   ]
 }

@@ -1,13 +1,21 @@
 "use client"
 
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { toast } from "react-toastify"
+import { registerStart, registerSuccess, registerFailure } from "../store/slices/authSlice"
+import { authAPI } from "../services/api"
 
 function Register() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [selectedRole, setSelectedRole] = useState("")
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { loading } = useSelector((state) => state.auth)
 
   const roles = [
     {
@@ -27,6 +35,42 @@ function Register() {
       description: "Consultation seule (anonyme).",
     },
   ]
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (!name || !email || !password) {
+      toast.error("Veuillez remplir tous les champs")
+      return
+    }
+
+    if (!selectedRole) {
+      toast.error("Veuillez sélectionner un rôle")
+      return
+    }
+
+    if (password.length < 4) {
+      toast.error("Le mot de passe doit contenir au moins 4 caractères")
+      return
+    }
+
+    try {
+      dispatch(registerStart())
+      const newUser = await authAPI.register({
+        name,
+        email,
+        password,
+        role: selectedRole,
+      })
+
+      dispatch(registerSuccess(newUser))
+      toast.success("Compte créé avec succès !")
+      navigate("/")
+    } catch (error) {
+      dispatch(registerFailure(error.message))
+      toast.error(error.message)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#FFF2EE] flex items-center justify-center py-12 px-4">
@@ -48,7 +92,7 @@ function Register() {
         <div className="bg-white rounded-xl shadow-md p-8">
           <h2 className="text-2xl font-bold text-[#0d7377] text-center mb-8">Créer un compte</h2>
 
-          <form className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Name */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Nom / Pseudo</label>
@@ -69,6 +113,7 @@ function Register() {
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Salma ELOADI"
                   className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0d7377] text-sm"
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -93,6 +138,7 @@ function Register() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="salma@gmail.com"
                   className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0d7377] text-sm"
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -117,6 +163,7 @@ function Register() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0d7377] text-sm"
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -127,12 +174,12 @@ function Register() {
                 {roles.map((role) => (
                   <div
                     key={role.name}
-                    onClick={() => setSelectedRole(role.name)}
+                    onClick={() => !loading && setSelectedRole(role.name)}
                     className={`p-3.5 border rounded-lg cursor-pointer transition-all ${
                       selectedRole === role.name
                         ? "border-[#0d7377] bg-[#0d7377]/5"
                         : "border-gray-300 hover:border-gray-400"
-                    }`}
+                    } ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
                     <div className="font-semibold text-gray-900 text-sm">{role.name}</div>
                     <div className="text-xs text-gray-600 mt-0.5">{role.description}</div>
@@ -143,9 +190,10 @@ function Register() {
 
             <button
               type="submit"
-              className="w-full bg-[#0d7377] hover:bg-[#0a5c5f] text-white py-2.5 rounded-lg font-medium transition-colors text-sm mt-6"
+              disabled={loading}
+              className="w-full bg-[#0d7377] hover:bg-[#0a5c5f] text-white py-2.5 rounded-lg font-medium transition-colors text-sm mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              S'inscrire et rejoindre le Hub
+              {loading ? "Inscription..." : "S'inscrire et rejoindre le Hub"}
             </button>
 
             <div className="text-center text-sm mt-4">
