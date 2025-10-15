@@ -12,12 +12,13 @@ import {
   setCurrentPage,
   setSelectedSector,
 } from "../store/slices/startupsSlice"
-import { startupsAPI } from "../services/api"
+import { startupsAPI, eventsAPI } from "../services/api"
 
 function Home() {
   const dispatch = useDispatch()
   const { isAuthenticated, user } = useSelector((state) => state.auth)
   const { startups, loading, currentPage, itemsPerPage, selectedSector } = useSelector((state) => state.startups)
+  const { events } = useSelector((state) => state.events)
 
   const [searchQuery, setSearchQuery] = useState("")
   const [formData, setFormData] = useState({
@@ -37,7 +38,18 @@ function Home() {
         toast.error("Erreur lors du chargement des startups")
       }
     }
+
+    const fetchEvents = async () => {
+      try {
+        const eventData = await eventsAPI.getAll()
+        dispatch({ type: "SET_EVENTS", payload: eventData })
+      } catch (error) {
+        toast.error("Erreur lors du chargement des événements")
+      }
+    }
+
     fetchStartups()
+    fetchEvents()
   }, [dispatch])
 
   const filteredStartups = startups.filter((startup) => {
@@ -67,6 +79,11 @@ function Home() {
 
     if (!isAuthenticated) {
       toast.error("Vous devez être connecté pour ajouter une startup")
+      return
+    }
+
+    if (user.role !== "Startup" && user.role !== "Admin") {
+      toast.error("Seuls les startups et les administrateurs peuvent ajouter des startups")
       return
     }
 
@@ -108,6 +125,20 @@ function Home() {
       } catch (error) {
         toast.error("Erreur lors de la suppression")
       }
+    }
+  }
+
+  const handleParticipateFromHome = async (eventId) => {
+    if (!isAuthenticated) {
+      toast.error("Vous devez être connecté pour vous inscrire à un événement")
+      return
+    }
+
+    try {
+      await eventsAPI.participate(eventId, user.id)
+      toast.success("Vous êtes inscrit à cet événement avec succès")
+    } catch (error) {
+      toast.error("Erreur lors de l'inscription à cet événement")
     }
   }
 
@@ -251,6 +282,65 @@ function Home() {
         </div>
       </section>
 
+      {/* Événements à Venir */}
+      <section className="max-w-7xl mx-auto px-4 py-12">
+        <h2 className="text-3xl font-bold text-[#017679] mb-8">Événements à Venir</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Events List */}
+          <div className="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
+            <div className="space-y-4">
+              {events.slice(0, 4).map((event) => (
+                <div
+                  key={event.id}
+                  className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0"
+                >
+                  <div className="flex items-center gap-3 flex-1">
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    <span className="text-gray-800 font-medium">{event.title}</span>
+                  </div>
+                  <span className="text-gray-500 text-sm mr-4">
+                    ({new Date(event.date).toLocaleDateString("fr-FR")})
+                  </span>
+                  <button
+                    onClick={() => handleParticipateFromHome(event.id)}
+                    className="bg-[#017679] hover:bg-[#015f62] text-white px-6 py-2 rounded-lg text-sm transition-colors"
+                  >
+                    S'inscrire
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Start-up du mois */}
+          <div className="bg-white rounded-xl shadow-sm p-6 text-center">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <span className="text-2xl">⭐</span>
+              <h3 className="text-xl font-bold text-[#017679]">Start-up du mois</h3>
+              <span className="text-2xl">⭐</span>
+            </div>
+            <div className="mb-4">
+              <img
+                src="https://tse3.mm.bing.net/th/id/OIP.6pkUQZRs38sy7d_brb2T2AHaFA?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3"
+                alt={latestStartups[0]?.name || "Startup"}
+                className="w-32 h-32 mx-auto object-contain"
+              />
+            </div>
+            <h4 className="text-lg font-bold text-gray-800 mb-4">{latestStartups[0]?.name || "GreenShop"}</h4>
+            <button className="bg-[#017679] hover:bg-[#015f62] text-white px-6 py-2 rounded-lg text-sm transition-colors w-full">
+              Découvrir la start-up
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Espace Startup */}
       <section className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex justify-between items-center mb-8">
@@ -344,6 +434,13 @@ function Home() {
               >
                 Se connecter
               </a>
+            </div>
+          ) : user.role !== "Startup" && user.role !== "Admin" ? (
+            <div className="text-center py-8">
+              <p className="text-gray-600 mb-2">
+                Seuls les startups et les administrateurs peuvent ajouter des startups
+              </p>
+              <p className="text-sm text-gray-500">Votre rôle actuel: {user.role}</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">

@@ -74,6 +74,11 @@ export const discussionsAPI = {
     return response.data
   },
 
+  update: async (id, discussionData) => {
+    const response = await api.put(`/discussions/${id}`, discussionData)
+    return response.data
+  },
+
   delete: async (id) => {
     const response = await api.delete(`/discussions/${id}`)
     return response.data

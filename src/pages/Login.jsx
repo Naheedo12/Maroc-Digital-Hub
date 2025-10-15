@@ -10,30 +10,10 @@ import { authAPI } from "../services/api"
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [selectedRole, setSelectedRole] = useState("")
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { loading } = useSelector((state) => state.auth)
-
-  const roles = [
-    {
-      name: "Startup",
-      description: "Publier et gérer votre entreprise.",
-    },
-    {
-      name: "Investisseur",
-      description: "Accéder aux dossiers et investir.",
-    },
-    {
-      name: "Admin",
-      description: "Gestion complète de la plateforme.",
-    },
-    {
-      name: "Visiteur",
-      description: "Consultation seule (anonyme).",
-    },
-  ]
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -43,20 +23,9 @@ function Login() {
       return
     }
 
-    if (!selectedRole) {
-      toast.error("Veuillez sélectionner un rôle")
-      return
-    }
-
     try {
       dispatch(loginStart())
       const user = await authAPI.login(email, password)
-
-      if (user.role !== selectedRole) {
-        toast.error("Le rôle sélectionné ne correspond pas à votre compte")
-        dispatch(loginFailure("Rôle incorrect"))
-        return
-      }
 
       dispatch(loginSuccess(user))
       toast.success(`Bienvenue ${user.name} !`)
@@ -140,26 +109,6 @@ function Login() {
                   className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#017679] text-sm"
                   disabled={loading}
                 />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">Sélectionner votre Rôle</label>
-              <div className="space-y-2.5">
-                {roles.map((role) => (
-                  <div
-                    key={role.name}
-                    onClick={() => !loading && setSelectedRole(role.name)}
-                    className={`p-3.5 border rounded-lg cursor-pointer transition-all ${
-                      selectedRole === role.name
-                        ? "border-[#017679] bg-[#017679]/5"
-                        : "border-gray-300 hover:border-gray-400"
-                    } ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
-                  >
-                    <div className="font-semibold text-gray-900 text-sm">{role.name}</div>
-                    <div className="text-xs text-gray-600 mt-0.5">{role.description}</div>
-                  </div>
-                ))}
               </div>
             </div>
 

@@ -46,8 +46,8 @@ function Events() {
       return
     }
 
-    if (user.role === "Visiteur") {
-      toast.error("Les visiteurs ne peuvent pas créer d'événements")
+    if (user.role !== "Startup" && user.role !== "Investisseur" && user.role !== "Admin") {
+      toast.error("Seuls les Startups, Investisseurs et Admin peuvent créer des événements")
       return
     }
 
@@ -128,9 +128,9 @@ function Events() {
                 Se connecter
               </a>
             </div>
-          ) : user.role === "Visiteur" ? (
+          ) : user.role !== "Startup" && user.role !== "Investisseur" && user.role !== "Admin" ? (
             <div className="text-center py-4">
-              <p className="text-gray-600">Les visiteurs ne peuvent pas créer d'événements</p>
+              <p className="text-gray-600">Seuls les Startups, Investisseurs et Admin peuvent créer des événements</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">

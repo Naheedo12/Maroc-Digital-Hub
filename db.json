@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Salma",
       "email": "salma@gmail.com",
       "password": "salma",
@@ -22,11 +22,19 @@
       "password": "khadija",
       "role": "Startup",
       "createdAt": "2025-10-14T10:51:43.166Z"
+    },
+    {
+      "id": "302e",
+      "name": "imrane",
+      "email": "imrane@gmail",
+      "password": "imrane",
+      "role": "Investisseur",
+      "createdAt": "2025-10-15T11:00:40.333Z"
     }
   ],
   "startups": [
     {
-      "id": 1,
+      "id": "1",
       "name": "GreenShop",
       "sector": "E-commerce",
       "description": "Plateforme de commerce électronique pour produits écologiques.",
@@ -34,7 +42,7 @@
       "createdAt": "2025-01-15T10:00:00.000Z"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "AI Vision",
       "sector": "AI",
       "description": "Solutions d'intelligence artificielle pour la reconnaissance d'images.",
@@ -67,12 +75,15 @@
   ],
   "discussions": [
     {
-      "id": 1,
+      "id": "1",
       "author": "Salma ELQADI",
       "userId": 1,
       "role": "Admin",
       "message": "Rappel : Le TechSummit est le 15 novembre. N'oubliez pas de vous inscrire à la page Événements !",
-      "createdAt": "2025-09-30T23:27:00.000Z"
+      "createdAt": "2025-09-30T23:27:00.000Z",
+      "likes": [
+        "5877"
+      ]
     },
     {
       "id": "f2a6",
@@ -81,6 +92,15 @@
       "role": "Startup",
       "message": "saluuuut",
       "createdAt": "2025-10-14T10:42:04.683Z"
+    },
+    {
+      "id": "1108",
+      "author": "Chayma",
+      "userId": "5877",
+      "role": "Startup",
+      "message": "hbhh",
+      "likes": [],
+      "createdAt": "2025-10-15T08:53:51.689Z"
     }
   ]
 }
