@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { toast } from "react-toastify"
@@ -289,33 +287,42 @@ function Home() {
           {/* Events List */}
           <div className="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
             <div className="space-y-4">
-              {events.slice(0, 4).map((event) => (
-                <div
-                  key={event.id}
-                  className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0"
-                >
-                  <div className="flex items-center gap-3 flex-1">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                    <span className="text-gray-800 font-medium">{event.title}</span>
-                  </div>
-                  <span className="text-gray-500 text-sm mr-4">
-                    ({new Date(event.date).toLocaleDateString("fr-FR")})
-                  </span>
-                  <button
-                    onClick={() => handleParticipateFromHome(event.id)}
-                    className="bg-[#017679] hover:bg-[#015f62] text-white px-6 py-2 rounded-lg text-sm transition-colors"
+              {events && events.length > 0 ? (
+                events.slice(0, 4).map((event) => (
+                  <div
+                    key={event.id}
+                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 border-b border-gray-100 last:border-0 gap-3"
                   >
-                    S'inscrire
-                  </button>
-                </div>
-              ))}
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <svg
+                        className="w-5 h-5 text-gray-400 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                      <span className="text-gray-800 font-medium truncate">{event.title}</span>
+                    </div>
+                    <span className="text-gray-500 text-sm flex-shrink-0">
+                      ({new Date(event.date).toLocaleDateString("fr-FR")})
+                    </span>
+                    <button
+                      onClick={() => handleParticipateFromHome(event.id)}
+                      className="bg-[#017679] hover:bg-[#015f62] text-white px-6 py-2 rounded-lg text-sm transition-colors flex-shrink-0 w-full sm:w-auto"
+                    >
+                      S'inscrire
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500 text-center py-4">Aucun événement disponible</p>
+              )}
             </div>
           </div>
 
@@ -343,7 +350,7 @@ function Home() {
 
       {/* Espace Startup */}
       <section className="max-w-7xl mx-auto px-4 py-12">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <h2 className="text-3xl font-bold text-[#017679]">Espace Startup</h2>
           <div className="text-sm text-gray-600">
             {selectedSector !== "Tous" && (
@@ -395,7 +402,7 @@ function Home() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-3">
+              <div className="flex justify-center items-center gap-3 flex-wrap">
                 <button
                   onClick={() => dispatch(setCurrentPage(Math.max(1, currentPage - 1)))}
                   disabled={currentPage === 1}
@@ -404,7 +411,7 @@ function Home() {
                   Précédent
                 </button>
                 <div className="flex items-center gap-2">
-                  <span className="text-[#017679] font-bold">
+                  <span className="text-[#017679] font-bold text-lg">
                     {currentPage} / {totalPages}
                   </span>
                 </div>

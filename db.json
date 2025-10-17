@@ -16,20 +16,28 @@
       "createdAt": "2025-10-14T10:39:13.479Z"
     },
     {
-      "id": "34aa",
-      "name": "khadija",
-      "email": "khadija@gmail.com",
-      "password": "khadija",
-      "role": "Startup",
-      "createdAt": "2025-10-14T10:51:43.166Z"
-    },
-    {
       "id": "302e",
       "name": "imrane",
-      "email": "imrane@gmail",
+      "email": "imrane@gmail.com",
       "password": "imrane",
       "role": "Investisseur",
       "createdAt": "2025-10-15T11:00:40.333Z"
+    },
+    {
+      "id": "6331",
+      "name": "khadija",
+      "email": "khadija@gmail.com",
+      "password": "khadija",
+      "role": "Visiteur",
+      "createdAt": "2025-10-15T11:11:37.718Z"
+    },
+    {
+      "id": "4746",
+      "name": "amina",
+      "email": "amina@gmail.com",
+      "password": "amina",
+      "role": "Admin",
+      "createdAt": "2025-10-17T19:12:31.617Z"
     }
   ],
   "startups": [
@@ -50,12 +58,52 @@
       "createdAt": "2025-01-14T10:00:00.000Z"
     },
     {
-      "id": "ec6f",
-      "name": "chayma",
+      "id": "7d72",
+      "name": "aaaa",
+      "sector": "AI",
+      "description": "aaa",
+      "userId": "1",
+      "createdAt": "2025-10-17T18:00:45.160Z"
+    },
+    {
+      "id": "99ee",
+      "name": "asSA",
+      "sector": "Tourisme",
+      "description": "AAA",
+      "userId": "1",
+      "createdAt": "2025-10-17T18:00:54.214Z"
+    },
+    {
+      "id": "4606",
+      "name": "AAA",
+      "sector": "GennTech",
+      "description": "qqq",
+      "userId": "1",
+      "createdAt": "2025-10-17T18:01:02.446Z"
+    },
+    {
+      "id": "3d42",
+      "name": "salma",
       "sector": "E-commerce",
-      "description": "helloooo",
+      "description": "sajbcuacb\n",
+      "userId": "1",
+      "createdAt": "2025-10-17T18:01:08.946Z"
+    },
+    {
+      "id": "18a0",
+      "name": "ascacc",
+      "sector": "Tourisme",
+      "description": "xacac",
+      "userId": "1",
+      "createdAt": "2025-10-17T18:01:15.612Z"
+    },
+    {
+      "id": "5fde",
+      "name": "amina",
+      "sector": "E-commerce",
+      "description": "jbsxbqcujbq ub",
       "userId": "5877",
-      "createdAt": "2025-10-14T10:40:12.146Z"
+      "createdAt": "2025-10-17T18:36:46.597Z"
     }
   ],
   "events": [
@@ -66,11 +114,71 @@
       "location": "casa",
       "description": "3ars",
       "participants": [
-        "5877",
-        1
+        1,
+        "6331",
+        "1"
       ],
       "createdBy": "5877",
       "createdAt": "2025-10-14T10:41:40.682Z"
+    },
+    {
+      "id": "d646",
+      "title": "3ars",
+      "date": "2025-10-12",
+      "location": "rabat",
+      "description": "zid drdk",
+      "participants": [
+        "302e",
+        "5877"
+      ],
+      "createdBy": "5877",
+      "createdAt": "2025-10-15T15:53:39.438Z"
+    },
+    {
+      "id": "aa85",
+      "title": "asjcbnajcn",
+      "date": "2025-10-12",
+      "location": "rabat",
+      "description": "nhefuqbv",
+      "participants": [],
+      "createdBy": "1",
+      "createdAt": "2025-10-17T18:01:51.380Z"
+    },
+    {
+      "id": "d509",
+      "title": "efcuwhcuqh",
+      "date": "2025-10-12",
+      "location": "fes",
+      "description": "jwbvjqn",
+      "participants": [
+        "1"
+      ],
+      "createdBy": "1",
+      "createdAt": "2025-10-17T18:02:05.476Z"
+    },
+    {
+      "id": "bf03",
+      "title": "jesjs",
+      "date": "2025-12-12",
+      "location": "wenfw",
+      "description": "qnefcjwn",
+      "participants": [
+        "1"
+      ],
+      "createdBy": "1",
+      "createdAt": "2025-10-17T18:02:19.665Z"
+    },
+    {
+      "id": "eb1b",
+      "title": "helloooooo",
+      "date": "2026-01-12",
+      "location": "tetouan",
+      "description": "jberuvheu",
+      "participants": [
+        "5877"
+      ],
+      "createdBy": "5877",
+      "createdAt": "2025-10-17T18:38:50.845Z"
     }
   ],
   "discussions": [
@@ -91,16 +199,42 @@
       "userId": "5877",
       "role": "Startup",
       "message": "saluuuut",
-      "createdAt": "2025-10-14T10:42:04.683Z"
+      "createdAt": "2025-10-14T10:42:04.683Z",
+      "likes": [
+        "5877"
+      ]
     },
     {
-      "id": "1108",
+      "id": "667b",
+      "author": "Salma",
+      "userId": "1",
+      "role": "Admin",
+      "message": "hosna salaaaam cv 3lik",
+      "likes": [
+        "5877",
+        "1",
+        "6331",
+        "302e"
+      ],
+      "createdAt": "2025-10-15T13:51:00.942Z"
+    },
+    {
+      "id": "f6fe",
       "author": "Chayma",
       "userId": "5877",
       "role": "Startup",
-      "message": "hbhh",
+      "message": "hellooooo cv ?",
       "likes": [],
-      "createdAt": "2025-10-15T08:53:51.689Z"
+      "createdAt": "2025-10-15T15:54:50.540Z"
+    },
+    {
+      "id": "1ebb",
+      "author": "Chayma",
+      "userId": "5877",
+      "role": "Startup",
+      "message": "niiiice",
+      "likes": [],
+      "createdAt": "2025-10-17T18:39:42.004Z"
     }
   ]
 }

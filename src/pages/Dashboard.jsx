@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
@@ -109,7 +107,7 @@ function Dashboard() {
     <div className="min-h-screen bg-[#fef5f1] py-12 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-12">
-          <h1 className="text-4xl font-bold text-[#0d7377]">Tableau de Bord Administrateur</h1>
+          <h1 className="text-4xl font-bold text-[#0d7377] text-center">Tableau de Bord Administrateur</h1>
           <Link to="/" className="text-gray-600 hover:text-[#0d7377] flex items-center space-x-2 transition-colors">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
