@@ -16,50 +16,37 @@ function Register() {
   const { loading } = useSelector((state) => state.auth)
 
   const roles = [
-    {
-      name: "Startup",
-      description: "Publier et gérer votre entreprise.",
-    },
-    {
-      name: "Investisseur",
-      description: "Accéder aux dossiers et investir.",
-    },
-    {
-      name: "Admin",
-      description: "Gestion complète de la plateforme.",
-    },
-    {
-      name: "Visiteur",
-      description: "Consultation seule (anonyme).",
-    },
+    { name: "Startup", description: "Publier et gérer votre entreprise." },
+    { name: "Investisseur", description: "Accéder aux dossiers et investir." },
+    { name: "Admin", description: "Gestion complète de la plateforme." },
+    { name: "Visiteur", description: "Consultation seule (anonyme)." },
   ]
+
+  const validateInputs = () => {
+    if (!name || !email || !password) {
+      toast.error("Veuillez remplir tous les champs")
+      return false
+    }
+    if (!selectedRole) {
+      toast.error("Veuillez sélectionner un rôle")
+      return false
+    }
+    if (password.length < 4) {
+      toast.error("Le mot de passe doit contenir au moins 4 caractères")
+      return false
+    }
+    return true
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!name || !email || !password) {
-      toast.error("Veuillez remplir tous les champs")
-      return
-    }
-
-    if (!selectedRole) {
-      toast.error("Veuillez sélectionner un rôle")
-      return
-    }
-
-    if (password.length < 4) {
-      toast.error("Le mot de passe doit contenir au moins 4 caractères")
-      return
-    }
+    if (!validateInputs()) return
 
     try {
       dispatch(registerStart())
-      const newUser = await authAPI.register({
-        name,
-        email,
-        password,
-        role: selectedRole,
-      })
+
+      const newUser = await authAPI.register({ name, email, password, role: selectedRole })
 
       dispatch(registerSuccess(newUser))
       toast.success("Compte créé avec succès !")
@@ -81,7 +68,10 @@ function Register() {
             >
               Connexion
             </Link>
-            <Link to="/register" className="px-8 py-3 bg-[#0d7377] text-white font-medium text-sm">
+            <Link
+              to="/register"
+              className="px-8 py-3 bg-[#0d7377] text-white font-medium text-sm"
+            >
               Inscription
             </Link>
           </div>
@@ -91,16 +81,12 @@ function Register() {
           <h2 className="text-2xl font-bold text-[#0d7377] text-center mb-8">Créer un compte</h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Name */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Nom / Pseudo</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                     />
                   </svg>
@@ -116,16 +102,12 @@ function Register() {
               </div>
             </div>
 
-            {/* Email */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Adresse Email</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                     />
                   </svg>
@@ -141,16 +123,12 @@ function Register() {
               </div>
             </div>
 
-            {/* Password */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Mot de passe</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                     />
                   </svg>

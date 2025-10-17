@@ -23,7 +23,7 @@ function Events() {
   })
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const loadEvents = async () => {
       try {
         dispatch(fetchEventsStart())
         const data = await eventsAPI.getAll()
@@ -33,26 +33,22 @@ function Events() {
         toast.error("Erreur lors du chargement des événements")
       }
     }
-    fetchEvents()
+
+    loadEvents()
   }, [dispatch])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!isAuthenticated) {
-      toast.error("Vous devez être connecté pour créer un événement")
-      return
-    }
+    if (!isAuthenticated) return toast.error("Vous devez être connecté pour créer un événement")
 
-    if (user.role !== "Startup" && user.role !== "Investisseur" && user.role !== "Admin") {
-      toast.error("Seuls les Startups, Investisseurs et Admin peuvent créer des événements")
-      return
-    }
+    const allowedRoles = ["Startup", "Investisseur", "Admin"]
+    if (!allowedRoles.includes(user.role))
+      return toast.error("Seuls les Startups, Investisseurs et Admin peuvent créer des événements")
 
-    if (!formData.title || !formData.date || !formData.location || !formData.description) {
-      toast.error("Veuillez remplir tous les champs")
-      return
-    }
+    const { title, date, location, description } = formData
+    if (!title || !date || !location || !description)
+      return toast.error("Veuillez remplir tous les champs")
 
     try {
       const newEvent = await eventsAPI.create({
@@ -61,64 +57,68 @@ function Events() {
         createdBy: user.id,
         createdAt: new Date().toISOString(),
       })
+
       dispatch(addEvent(newEvent))
       toast.success("Événement créé avec succès !")
       setFormData({ title: "", date: "", location: "", description: "" })
-    } catch (error) {
+    } catch {
       toast.error("Erreur lors de la création de l'événement")
     }
   }
 
   const handleParticipate = async (eventId) => {
-    if (!isAuthenticated) {
-      toast.error("Vous devez être connecté pour participer")
-      return
-    }
+    if (!isAuthenticated) return toast.error("Vous devez être connecté pour participer")
 
     const event = events.find((e) => e.id === eventId)
-    if (event.participants.includes(user.id)) {
-      toast.info("Vous participez déjà à cet événement")
-      return
-    }
+    if (!event) return toast.error("Événement introuvable")
+
+    if (event.participants.includes(user.id))
+      return toast.info("Vous participez déjà à cet événement")
 
     try {
-      const updatedEvent = await eventsAPI.update(eventId, {
+      await eventsAPI.update(eventId, {
         ...event,
         participants: [...event.participants, user.id],
       })
+
       dispatch(participateInEvent({ eventId, userId: user.id }))
       toast.success("Inscription réussie !")
-    } catch (error) {
+    } catch {
       toast.error("Erreur lors de l'inscription")
     }
   }
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString("fr-FR", {
+  const formatDate = (dateString) =>
+    new Date(dateString).toLocaleDateString("fr-FR", {
       weekday: "short",
       day: "numeric",
       month: "short",
       year: "numeric",
     })
-  }
 
   return (
     <div className="min-h-screen bg-[#FFF2EE] py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-[#017679] text-center mb-3">Calendrier des Événements</h1>
+        <h1 className="text-4xl font-bold text-[#017679] text-center mb-3">
+          Calendrier des Événements
+        </h1>
         <p className="text-center text-gray-600 mb-12 text-sm">
           Découvrez les prochains meetups, conférences et ateliers organisés par la communauté.
         </p>
 
-        {/* Create Event Form */}
         <div className="bg-white rounded-xl shadow-md p-8 mb-12">
-          <h2 className="text-2xl font-bold text-[#017679] text-center mb-3">Créer un nouvel événement</h2>
-          <p className="text-center text-gray-600 mb-6 text-sm">Vous pouvez proposer un événement à la communauté.</p>
+          <h2 className="text-2xl font-bold text-[#017679] text-center mb-3">
+            Créer un nouvel événement
+          </h2>
+          <p className="text-center text-gray-600 mb-6 text-sm">
+            Vous pouvez proposer un événement à la communauté.
+          </p>
 
           {!isAuthenticated ? (
             <div className="text-center py-4">
-              <p className="text-gray-600 mb-4">Vous devez être connecté pour créer un événement</p>
+              <p className="text-gray-600 mb-4">
+                Vous devez être connecté pour créer un événement
+              </p>
               <a
                 href="/login"
                 className="inline-block bg-[#017679] hover:bg-[#015a5d] text-white px-6 py-2 rounded-lg transition-colors"
@@ -126,14 +126,18 @@ function Events() {
                 Se connecter
               </a>
             </div>
-          ) : user.role !== "Startup" && user.role !== "Investisseur" && user.role !== "Admin" ? (
+          ) : !["Startup", "Investisseur", "Admin"].includes(user.role) ? (
             <div className="text-center py-4">
-              <p className="text-gray-600">Seuls les Startups, Investisseurs et Admin peuvent créer des événements</p>
+              <p className="text-gray-600">
+                Seuls les Startups, Investisseurs et Admin peuvent créer des événements
+              </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Titre de l'événement</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Titre de l'événement
+                </label>
                 <input
                   type="text"
                   value={formData.title}
@@ -166,20 +170,24 @@ function Events() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Description
+                </label>
                 <textarea
                   rows="4"
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Détails, intervenants..."
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#017679] text-sm"
-                ></textarea>
+                />
               </div>
 
               <div className="flex justify-end space-x-3">
                 <button
                   type="button"
-                  onClick={() => setFormData({ title: "", date: "", location: "", description: "" })}
+                  onClick={() =>
+                    setFormData({ title: "", date: "", location: "", description: "" })
+                  }
                   className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm"
                 >
                   Annuler
@@ -195,12 +203,11 @@ function Events() {
           )}
         </div>
 
-        {/* Events List */}
         <h2 className="text-2xl font-bold text-[#017679] mb-6">Les événements existants</h2>
 
         {loading ? (
           <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#017679]"></div>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#017679]" />
             <p className="mt-4 text-gray-600">Chargement des événements...</p>
           </div>
         ) : events.length === 0 ? (
@@ -215,6 +222,7 @@ function Events() {
                 className="bg-white border-l-[6px] border-[#017679] rounded-lg p-6 hover:shadow-lg transition-shadow"
               >
                 <h3 className="font-bold text-lg mb-4">{event.title}</h3>
+
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center text-sm text-gray-700">
                     <svg className="w-4 h-4 mr-2 text-[#D88B6F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -229,6 +237,7 @@ function Events() {
                       <strong>Date :</strong> {formatDate(event.date)}
                     </span>
                   </div>
+
                   <div className="flex items-center text-sm text-gray-700">
                     <svg className="w-4 h-4 mr-2 text-[#D88B6F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -249,7 +258,9 @@ function Events() {
                     </span>
                   </div>
                 </div>
+
                 <p className="text-sm text-gray-600 mb-6">{event.description}</p>
+
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                   <div className="flex items-center text-sm text-gray-500">
                     <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -262,6 +273,7 @@ function Events() {
                     </svg>
                     {event.participants.length} participants
                   </div>
+
                   {isAuthenticated && event.participants.includes(user.id) ? (
                     <span className="bg-green-100 text-green-700 px-5 py-2 rounded-lg text-sm font-medium">
                       Inscrit

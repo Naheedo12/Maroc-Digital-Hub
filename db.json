@@ -38,6 +38,22 @@
       "password": "amina",
       "role": "Admin",
       "createdAt": "2025-10-17T19:12:31.617Z"
+    },
+    {
+      "id": "98b5",
+      "name": "bouchra",
+      "email": "bouchra@gmail.com",
+      "password": "bouchra",
+      "role": "Startup",
+      "createdAt": "2025-10-17T19:22:27.881Z"
+    },
+    {
+      "id": "9b1e",
+      "name": "salima",
+      "email": "salima@gmail.com",
+      "password": "salima",
+      "role": "Investisseur",
+      "createdAt": "2025-10-17T20:15:42.760Z"
     }
   ],
   "startups": [
@@ -74,14 +90,6 @@
       "createdAt": "2025-10-17T18:00:54.214Z"
     },
     {
-      "id": "4606",
-      "name": "AAA",
-      "sector": "GennTech",
-      "description": "qqq",
-      "userId": "1",
-      "createdAt": "2025-10-17T18:01:02.446Z"
-    },
-    {
       "id": "3d42",
       "name": "salma",
       "sector": "E-commerce",
@@ -115,8 +123,7 @@
       "description": "3ars",
       "participants": [
         1,
-        "6331",
-        "1"
+        "6331"
       ],
       "createdBy": "5877",
       "createdAt": "2025-10-14T10:41:40.682Z"
@@ -129,7 +136,8 @@
       "description": "zid drdk",
       "participants": [
         "302e",
-        "5877"
+        "5877",
+        "1"
       ],
       "createdBy": "5877",
       "createdAt": "2025-10-15T15:53:39.438Z"
@@ -140,7 +148,9 @@
       "date": "2025-10-12",
       "location": "rabat",
       "description": "nhefuqbv",
-      "participants": [],
+      "participants": [
+        "1"
+      ],
       "createdBy": "1",
       "createdAt": "2025-10-17T18:01:51.380Z"
     },
@@ -150,9 +160,7 @@
       "date": "2025-10-12",
       "location": "fes",
       "description": "jwbvjqn",
-      "participants": [
-        "1"
-      ],
+      "participants": [],
       "createdBy": "1",
       "createdAt": "2025-10-17T18:02:05.476Z"
     },
@@ -175,10 +183,34 @@
       "location": "tetouan",
       "description": "jberuvheu",
       "participants": [
-        "5877"
+        "1"
       ],
       "createdBy": "5877",
       "createdAt": "2025-10-17T18:38:50.845Z"
+    },
+    {
+      "id": "7cb0",
+      "title": "salmaaaaaaaaaaaaaaaa",
+      "date": "2025-11-11",
+      "location": "khouribga",
+      "description": "salmaaaaaaaaaaaaaaaaaaaaa\n",
+      "participants": [
+        "1"
+      ],
+      "createdBy": "1",
+      "createdAt": "2025-10-17T19:43:41.622Z"
+    },
+    {
+      "id": "61a4",
+      "title": "conference de salutation",
+      "date": "2026-01-01",
+      "location": "bg",
+      "description": "bevuevh",
+      "participants": [
+        "1"
+      ],
+      "createdBy": "1",
+      "createdAt": "2025-10-17T20:10:24.936Z"
     }
   ],
   "discussions": [
@@ -190,7 +222,8 @@
       "message": "Rappel : Le TechSummit est le 15 novembre. N'oubliez pas de vous inscrire à la page Événements !",
       "createdAt": "2025-09-30T23:27:00.000Z",
       "likes": [
-        "5877"
+        "5877",
+        "302e"
       ]
     },
     {
@@ -201,7 +234,8 @@
       "message": "saluuuut",
       "createdAt": "2025-10-14T10:42:04.683Z",
       "likes": [
-        "5877"
+        "5877",
+        "1"
       ]
     },
     {
@@ -219,15 +253,6 @@
       "createdAt": "2025-10-15T13:51:00.942Z"
     },
     {
-      "id": "f6fe",
-      "author": "Chayma",
-      "userId": "5877",
-      "role": "Startup",
-      "message": "hellooooo cv ?",
-      "likes": [],
-      "createdAt": "2025-10-15T15:54:50.540Z"
-    },
-    {
       "id": "1ebb",
       "author": "Chayma",
       "userId": "5877",
@@ -235,6 +260,37 @@
       "message": "niiiice",
       "likes": [],
       "createdAt": "2025-10-17T18:39:42.004Z"
+    },
+    {
+      "id": "8b1a",
+      "author": "Salma",
+      "userId": "1",
+      "role": "Admin",
+      "message": "hi",
+      "likes": [],
+      "createdAt": "2025-10-17T19:31:20.087Z"
+    },
+    {
+      "id": "58c8",
+      "author": "Salma",
+      "userId": "1",
+      "role": "Admin",
+      "message": "i wish ur fine",
+      "likes": [
+        "1"
+      ],
+      "createdAt": "2025-10-17T20:09:17.306Z"
+    },
+    {
+      "id": "0d24",
+      "author": "salima",
+      "userId": "9b1e",
+      "role": "Investisseur",
+      "message": "salaaam j ai une question",
+      "likes": [
+        "9b1e"
+      ],
+      "createdAt": "2025-10-17T20:16:45.274Z"
     }
   ]
 }

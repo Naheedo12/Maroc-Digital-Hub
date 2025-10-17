@@ -4,112 +4,50 @@ const API_URL = "http://localhost:5000"
 
 const api = axios.create({
   baseURL: API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: { "Content-Type": "application/json" },
 })
 
 export const startupsAPI = {
-  getAll: async () => {
-    const response = await api.get("/startups")
-    return response.data
-  },
-
-  getById: async (id) => {
-    const response = await api.get(`/startups/${id}`)
-    return response.data
-  },
-
-  create: async (startupData) => {
-    const response = await api.post("/startups", startupData)
-    return response.data
-  },
-
-  update: async (id, startupData) => {
-    const response = await api.put(`/startups/${id}`, startupData)
-    return response.data
-  },
-
-  delete: async (id) => {
-    const response = await api.delete(`/startups/${id}`)
-    return response.data
-  },
+  getAll: async () => (await api.get("/startups")).data,
+  getById: async (id) => (await api.get(`/startups/${id}`)).data,
+  create: async (data) => (await api.post("/startups", data)).data,
+  update: async (id, data) => (await api.put(`/startups/${id}`, data)).data,
+  delete: async (id) => (await api.delete(`/startups/${id}`)).data,
 }
 
 export const eventsAPI = {
-  getAll: async () => {
-    const response = await api.get("/events")
-    return response.data
-  },
-
-  getById: async (id) => {
-    const response = await api.get(`/events/${id}`)
-    return response.data
-  },
-
-  create: async (eventData) => {
-    const response = await api.post("/events", eventData)
-    return response.data
-  },
-
-  update: async (id, eventData) => {
-    const response = await api.put(`/events/${id}`, eventData)
-    return response.data
-  },
-
-  delete: async (id) => {
-    const response = await api.delete(`/events/${id}`)
-    return response.data
-  },
+  getAll: async () => (await api.get("/events")).data,
+  getById: async (id) => (await api.get(`/events/${id}`)).data,
+  create: async (data) => (await api.post("/events", data)).data,
+  update: async (id, data) => (await api.put(`/events/${id}`, data)).data,
+  delete: async (id) => (await api.delete(`/events/${id}`)).data,
 }
 
 export const discussionsAPI = {
-  getAll: async () => {
-    const response = await api.get("/discussions")
-    return response.data
-  },
-
-  create: async (discussionData) => {
-    const response = await api.post("/discussions", discussionData)
-    return response.data
-  },
-
-  update: async (id, discussionData) => {
-    const response = await api.put(`/discussions/${id}`, discussionData)
-    return response.data
-  },
-
-  delete: async (id) => {
-    const response = await api.delete(`/discussions/${id}`)
-    return response.data
-  },
+  getAll: async () => (await api.get("/discussions")).data,
+  create: async (data) => (await api.post("/discussions", data)).data,
+  update: async (id, data) => (await api.put(`/discussions/${id}`, data)).data,
+  delete: async (id) => (await api.delete(`/discussions/${id}`)).data,
 }
 
 export const authAPI = {
   register: async (userData) => {
-    const existingUsers = await api.get(`/users?email=${userData.email}`)
-    if (existingUsers.data.length > 0) {
-      throw new Error("Cet email est déjà utilisé")
-    }
+    const existing = await api.get(`/users?email=${userData.email}`)
+    if (existing.data.length > 0) throw new Error("Cet email est déjà utilisé")
 
-    const response = await api.post("/users", {
-      ...userData,
-      createdAt: new Date().toISOString(),
-    })
-    return response.data
+    const newUser = { ...userData, createdAt: new Date().toISOString() }
+    return (await api.post("/users", newUser)).data
   },
 
   login: async (email, password) => {
-    const response = await api.get(`/users?email=${email}&password=${password}`)
-    if (response.data.length > 0) {
-      return response.data[0]
-    }
-    throw new Error("Email ou mot de passe incorrect")
+    const res = await api.get(`/users?email=${email}&password=${password}`)
+    if (res.data.length === 0) throw new Error("Email ou mot de passe incorrect")
+    return res.data[0]
   },
 
   checkEmailExists: async (email) => {
-    const response = await api.get(`/users?email=${email}`)
-    return response.data.length > 0
+    const res = await api.get(`/users?email=${email}`)
+    return res.data.length > 0
   },
 }
 

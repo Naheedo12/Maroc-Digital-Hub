@@ -17,104 +17,86 @@ function Forum() {
   const { discussions, loading } = useSelector((state) => state.discussions)
 
   const [message, setMessage] = useState("")
-  const [sortBy, setSortBy] = useState("recent")
 
+  // Charger toutes les discussions
   useEffect(() => {
-    const fetchDiscussions = async () => {
+    const loadDiscussions = async () => {
       try {
         dispatch(fetchDiscussionsStart())
         const data = await discussionsAPI.getAll()
         dispatch(fetchDiscussionsSuccess(data))
-      } catch (error) {
-        dispatch(fetchDiscussionsFailure(error.message))
+      } catch (err) {
+        dispatch(fetchDiscussionsFailure(err.message))
         toast.error("Erreur lors du chargement des discussions")
       }
     }
-    fetchDiscussions()
+    loadDiscussions()
   }, [dispatch])
 
+  // Publier un message
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (!isAuthenticated) {
-      toast.error("Vous devez être connecté pour publier un message")
-      return
-    }
-
-    if (!message.trim()) {
-      toast.error("Veuillez écrire un message")
-      return
-    }
+    if (!isAuthenticated) return toast.error("Connectez-vous pour publier")
+    if (!message.trim()) return toast.error("Veuillez écrire un message")
 
     try {
-      const newDiscussion = await discussionsAPI.create({
+      const newMessage = {
         author: user.name,
         userId: user.id,
         role: user.role,
         message: message.trim(),
         likes: [],
         createdAt: new Date().toISOString(),
-      })
-      dispatch(addDiscussion(newDiscussion))
-      toast.success("Message publié avec succès !")
+      }
+
+      const savedDiscussion = await discussionsAPI.create(newMessage)
+      dispatch(addDiscussion(savedDiscussion))
+      toast.success("Message publié !")
       setMessage("")
-    } catch (error) {
+    } catch {
       toast.error("Erreur lors de la publication du message")
     }
   }
 
+  // Aimer / Retirer un like
   const handleLike = async (discussionId) => {
-    if (!isAuthenticated) {
-      toast.error("Vous devez être connecté pour aimer un message")
-      return
-    }
+    if (!isAuthenticated) return toast.error("Connectez-vous pour aimer")
 
     const discussion = discussions.find((d) => d.id === discussionId)
-    const hasLiked = discussion.likes?.includes(user.id)
+    const alreadyLiked = discussion.likes?.includes(user.id)
+    const updatedLikes = alreadyLiked
+      ? discussion.likes.filter((id) => id !== user.id)
+      : [...(discussion.likes || []), user.id]
 
     try {
-      const updatedLikes = hasLiked
-        ? discussion.likes.filter((id) => id !== user.id)
-        : [...(discussion.likes || []), user.id]
-
-      await discussionsAPI.update(discussionId, {
-        ...discussion,
-        likes: updatedLikes,
-      })
-
+      await discussionsAPI.update(discussionId, { ...discussion, likes: updatedLikes })
       dispatch(likeDiscussion({ discussionId, userId: user.id }))
-
-      if (!hasLiked) {
-        toast.success("Message aimé !")
-      }
-    } catch (error) {
-      toast.error("Erreur lors de l'action")
+      if (!alreadyLiked) toast.success("Message aimé ❤️")
+    } catch {
+      toast.error("Erreur lors du like")
     }
   }
 
-  const handleDelete = async (discussionId, discussionUserId) => {
-    if (!isAuthenticated) {
-      toast.error("Vous devez être connecté")
-      return
-    }
+  // Supprimer un message
+  const handleDelete = async (id, ownerId) => {
+    if (!isAuthenticated) return toast.error("Connectez-vous d'abord")
+    if (user.role !== "Admin" && user.id !== ownerId)
+      return toast.error("Seuls les admins ou les auteurs peuvent supprimer")
 
-    if (user.role !== "Admin" && user.id !== discussionUserId) {
-      toast.error("Seuls les admins peuvent supprimer les messages")
-      return
-    }
-
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce message ?")) {
+    if (window.confirm("Supprimer ce message ?")) {
       try {
-        await discussionsAPI.delete(discussionId)
-        dispatch(deleteDiscussion(discussionId))
-        toast.success("Message supprimé avec succès")
-      } catch (error) {
+        await discussionsAPI.delete(id)
+        dispatch(deleteDiscussion(id))
+        toast.success("Message supprimé")
+      } catch {
         toast.error("Erreur lors de la suppression")
       }
     }
   }
 
-  const getRoleBadgeColor = (role) => {
+  // Couleur du badge selon le rôle
+  const getRoleColor = (role) => {
     switch (role) {
       case "Admin":
         return "bg-gradient-to-r from-red-500 to-red-600"
@@ -127,25 +109,15 @@ function Forum() {
     }
   }
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    const now = new Date()
-    const diffInSeconds = Math.floor((now - date) / 1000)
-
-    if (diffInSeconds < 60) return "À l'instant"
-    if (diffInSeconds < 3600) return `Il y a ${Math.floor(diffInSeconds / 60)} min`
-    if (diffInSeconds < 86400) return `Il y a ${Math.floor(diffInSeconds / 3600)} h`
-    if (diffInSeconds < 604800) return `Il y a ${Math.floor(diffInSeconds / 86400)} j`
-
-    return date.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })
+  // Afficher le temps sous format lisible
+  const formatDate = (date) => {
+    const d = new Date(date)
+    const diff = Math.floor((new Date() - d) / 1000)
+    if (diff < 60) return "À l'instant"
+    if (diff < 3600) return `Il y a ${Math.floor(diff / 60)} min`
+    if (diff < 86400) return `Il y a ${Math.floor(diff / 3600)} h`
+    return d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })
   }
-
-  const sortedDiscussions = [...discussions].sort((a, b) => {
-    if (sortBy === "popular") {
-      return (b.likes?.length || 0) - (a.likes?.length || 0)
-    }
-    return new Date(b.createdAt) - new Date(a.createdAt)
-  })
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#fef5f1] to-[#fff8f5] py-12 px-4">
@@ -154,11 +126,11 @@ function Forum() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-[#0d7377] mb-3">Discussions & Networking</h1>
           <p className="text-gray-600 text-sm max-w-2xl mx-auto">
-            Partagez vos idées, posez des questions à la communauté. Trouvez des partenaires ou des investisseurs.
+            Partagez vos idées et échangez avec la communauté.
           </p>
         </div>
 
-        {/* Post Message Form */}
+        {/* Formulaire de publication */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 border border-gray-100">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 bg-gradient-to-br from-[#ff6b6b] to-[#ff8787] rounded-full flex items-center justify-center">
@@ -179,7 +151,7 @@ function Forum() {
               <p className="text-gray-600 mb-4">Vous devez être connecté pour publier.</p>
               <a
                 href="/login"
-                className="inline-block bg-[#0d7377] hover:bg-[#0a5c5f] text-white px-6 py-2 rounded-lg text-sm transition-colors"
+                className="inline-block bg-[#0d7377] hover:bg-[#0a5c5f] text-white px-6 py-2 rounded-lg text-sm"
               >
                 Se connecter
               </a>
@@ -191,11 +163,12 @@ function Forum() {
                   rows="4"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Partagez vos idées avec la communauté..."
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#0d7377] text-sm transition-colors resize-none"
+                  placeholder="Partagez vos idées..."
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-[#0d7377] text-sm resize-none"
                 ></textarea>
                 <div className="absolute bottom-3 right-3 text-xs text-gray-400">{message.length} / 500</div>
               </div>
+
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2 text-sm text-gray-500">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -210,7 +183,7 @@ function Forum() {
                 </div>
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-[#0d7377] to-[#0a5c5f] hover:from-[#0a5c5f] hover:to-[#084a4d] text-white px-6 py-2.5 rounded-xl flex items-center space-x-2 transition-all shadow-md hover:shadow-lg text-sm font-medium"
+                  className="bg-gradient-to-r from-[#0d7377] to-[#0a5c5f] text-white px-6 py-2.5 rounded-xl flex items-center space-x-2 text-sm font-medium"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -227,36 +200,7 @@ function Forum() {
           )}
         </div>
 
-        {/* Sort and Filter */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-[#0d7377]">
-            Fil de Discussion <span className="text-lg text-gray-500">({discussions.length})</span>
-          </h2>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setSortBy("recent")}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                sortBy === "recent"
-                  ? "bg-[#0d7377] text-white"
-                  : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
-              }`}
-            >
-              Récents
-            </button>
-            <button
-              onClick={() => setSortBy("popular")}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                sortBy === "popular"
-                  ? "bg-[#0d7377] text-white"
-                  : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
-              }`}
-            >
-              Populaires
-            </button>
-          </div>
-        </div>
-
-        {/* Discussions List */}
+        {/* Discussions */}
         {loading ? (
           <div className="text-center py-16">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#0d7377] border-t-transparent"></div>
@@ -264,37 +208,25 @@ function Forum() {
           </div>
         ) : discussions.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-gray-200">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                />
-              </svg>
-            </div>
             <p className="text-gray-600 font-medium">Aucune discussion pour le moment</p>
             <p className="text-gray-500 text-sm mt-1">Soyez le premier à publier !</p>
           </div>
         ) : (
           <div className="space-y-4">
-            {sortedDiscussions.map((discussion) => (
+            {discussions.map((discussion) => (
               <div
                 key={discussion.id}
                 className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all p-6 border border-gray-100"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-start space-x-3 flex-1">
-                    <div className="w-12 h-12 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center font-bold text-gray-700 text-base flex-shrink-0 shadow-sm">
+                    <div className="w-12 h-12 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center font-bold text-gray-700">
                       {discussion.author.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-semibold text-gray-900">{discussion.author}</span>
-                        <span
-                          className={`${getRoleBadgeColor(discussion.role)} text-white text-xs px-3 py-1 rounded-full font-medium shadow-sm`}
-                        >
+                        <span className={`${getRoleColor(discussion.role)} text-white text-xs px-3 py-1 rounded-full`}>
                           {discussion.role}
                         </span>
                         <span className="text-xs text-gray-400">• {formatDate(discussion.createdAt)}</span>
@@ -303,7 +235,6 @@ function Forum() {
                     </div>
                   </div>
 
-                  {/* Delete button for Admin or message owner */}
                   {isAuthenticated && (user.role === "Admin" || user.id === discussion.userId) && (
                     <button
                       onClick={() => handleDelete(discussion.id, discussion.userId)}
@@ -322,14 +253,13 @@ function Forum() {
                   )}
                 </div>
 
-                {/* Like Button */}
                 <div className="flex items-center gap-4 pt-3 border-t border-gray-100">
                   <button
                     onClick={() => handleLike(discussion.id)}
                     disabled={!isAuthenticated}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       discussion.likes?.includes(user?.id)
-                        ? "bg-red-50 text-red-600 hover:bg-red-100"
+                        ? "bg-red-50 text-red-600"
                         : "bg-gray-50 text-gray-600 hover:bg-gray-100"
                     } ${!isAuthenticated ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
@@ -348,24 +278,6 @@ function Forum() {
                     </svg>
                     <span>{discussion.likes?.length || 0}</span>
                   </button>
-
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                      />
-                    </svg>
-                    <span>Vu par la communauté</span>
-                  </div>
                 </div>
               </div>
             ))}
